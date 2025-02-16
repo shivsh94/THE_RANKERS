@@ -9,8 +9,11 @@ import { login, logout } from './features/Login/loginSlice'
 import Home from './pages/Home'
 import Leaderboard from './pages/Leaderboard'
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL =  import.meta.env.VITE_URI;
 axios.defaults.withCredentials = true;
+axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+
 
 function App() {
   const dispatch = useDispatch();
