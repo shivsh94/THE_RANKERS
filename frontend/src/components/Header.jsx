@@ -45,7 +45,7 @@ const Header = () => {
                     <a href="/">THE_RANKERS</a>
                 </div>
                 <div className='flex items-center justify-center space-x-8 text-xl'>
-                    <a href="/home">HOME</a>
+                    <a href="/">HOME</a>
                     <a href="/about">ABOUT</a>
                     <a href="/contact">CONTACT</a>
                     <a href="/leaderboard">LEADERBOARD</a>

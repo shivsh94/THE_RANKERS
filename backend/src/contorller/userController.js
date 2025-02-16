@@ -86,7 +86,7 @@ export const githubCallback = async (req, res) => {
     const token = jwt.sign({ id: existingUser.githubId, github_token: accessToken }, SECRET_KEY, {
       expiresIn: "7d",
     });
-    console.log("Token",token);
+    // console.log("Token",token);
     
 
     // Set token in HTTP-only cookie

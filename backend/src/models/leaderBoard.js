@@ -6,11 +6,16 @@ const leaderBoardSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    username: {
+        type: String,
+        required: true,
+    },
 
     total_commit: {
         type: Number,
         // required: true,
-    },
+    }
+
     // ranker: {
     //     type: Array,
     //     default: 0,

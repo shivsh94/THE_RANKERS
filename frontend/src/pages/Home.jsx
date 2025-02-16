@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import { useSelector } from "react-redux";
 import GitHubLogin from "../components/GitHubLogin";
+import axios from "axios";
 // import axios from "axios";
 
 const Home = () => {
@@ -26,8 +27,21 @@ const Home = () => {
       }
     };
 
-    fetchRepos();
+    fetchRepos(); 
   }, [user]);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try{
+        const response = await axios.get("/auth/getleaderboard");
+          // console.log("Leaderboard Response:", response.data);
+        
+      } catch (error) {
+        console.error("Leaderboard Fetch Error:", error); 
+      }
+      };
+      fetchLeaderboard();
+    }, []);
 
   return (
     <div className="p-5 bg-black">

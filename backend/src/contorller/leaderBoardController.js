@@ -3,7 +3,6 @@ import LeaderBoard from "../models/leaderBoard.js";
 import { Octokit } from "@octokit/rest";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { get } from "mongoose";
 
 dotenv.config();
 
@@ -29,6 +28,7 @@ export const getLeaderBoard = async (req, res) => {
     let existingLeader = await LeaderBoard.findOne({
       github_Id: user.githubId,
     });
+    // const username = user.username;
 
     
     const TotalCommit = await getTotalCommits(octokit, user.repos.login, repos);
@@ -39,6 +39,7 @@ export const getLeaderBoard = async (req, res) => {
       existingLeader = new LeaderBoard({
         total_commit: TotalCommit,
         github_Id: user.githubId,
+        username: user.username,
         // ranker: TopRanker,
       });
       await existingLeader.save();
@@ -47,10 +48,10 @@ export const getLeaderBoard = async (req, res) => {
       existingLeader.total_commit = TotalCommit;
       await existingLeader.save();
     }
-    return res.status(200).json({ message: "success", data: existingLeader });
+    return res.status(200).json({success:true, message: "success", data: existingLeader });
   } catch (error) {
     console.error("LeaderBoard Error:", error);
-    return res.status(500).json({ error: "LeaderBoard failed" });
+    return res.status(500).json({success:false ,error: "LeaderBoard failed" });
   }
 };
 
@@ -85,15 +86,14 @@ const getTotalCommits = async (octokit, username, repos) => {
     return totalCommits;
 };
 
-// const getTopRanker = async () => {
-//     try {
-//         const topRanker = await LeaderBoard.find()
-//             .sort({ total_commit: -1 })  
 
-//         return topRanker;
-//     } catch (error) {
-//         console.error("Error fetching top rankers:", error);
-//         return [];   
-//     }
-// };
 
+export const leaderBoard = async (req, res) => {
+  try{
+    const leader = await LeaderBoard.find().sort({ total_commit: -1 });
+    return res.status(200).json({ success: true, leader });
+  }catch(error){
+    console.error("Error fetching leaderBoard:", error);
+    return res.status(500).json({success:false ,error: "Failed to load leaderBoard."});
+  }
+};
