@@ -43,7 +43,7 @@ export const githubCallback = async (req, res) => {
     // console.log("Octokit",octokit);
 
     const { data: user } = await octokit.rest.users.getAuthenticated();
-    console.log("User",user.login);
+    // console.log("User",user.login);
 
     // Check if user exists in the database
     let existingUser = await User.findOne({ githubId: user.id });
@@ -83,9 +83,11 @@ export const githubCallback = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: existingUser.githubId }, SECRET_KEY, {
+    const token = jwt.sign({ id: existingUser.githubId, github_token: accessToken }, SECRET_KEY, {
       expiresIn: "7d",
     });
+    console.log("Token",token);
+    
 
     // Set token in HTTP-only cookie
     res.cookie("token", token, {
