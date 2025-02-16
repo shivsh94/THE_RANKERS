@@ -12,7 +12,8 @@ const Header = () => {
     const user = useSelector((state) => state.login.currentUser);
 
     const handleLogin = () => {
-        window.location.href = "http://localhost:3000/auth/github";
+        window.location.href = `${import.meta.env.VITE_URI}/auth/github`;
+
     };
 
     const handleLogout = async (e) => {
@@ -49,7 +50,7 @@ const Header = () => {
                     <a href="/about">ABOUT</a>
                     <a href="/contact">CONTACT</a>
                     <a href="/leaderboard">LEADERBOARD</a>
-                    
+
                 </div>
                 <div className='flex items-center justify-end space-x-4'>
                     {user ? (
