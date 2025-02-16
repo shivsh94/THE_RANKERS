@@ -4,6 +4,10 @@ import  {getLeaderBoard,leaderBoard} from "../contorller/leaderBoardController.j
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+    res.send("hello");
+});
+
 router.get("/auth/github", githubAuth);
 router.get("/auth/github/callback", githubCallback);
 router.get("/auth/verify",isVerify);
