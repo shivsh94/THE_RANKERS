@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./src/config/db.js";
 import cors from "cors";
-import Router from "./src/routes/index.js"; 
+import router from "./src/routes/index.js"; 
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -17,7 +17,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
-app.use("/",Router);
+app.use("/",router);
  
 connectDB();
 
