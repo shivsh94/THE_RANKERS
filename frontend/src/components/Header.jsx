@@ -49,6 +49,7 @@ const Header = () => {
                     <a href="/about">ABOUT</a>
                     <a href="/contact">CONTACT</a>
                     <a href="/leaderboard">LEADERBOARD</a>
+                    
                 </div>
                 <div className='flex items-center justify-end space-x-4'>
                     {user ? (
