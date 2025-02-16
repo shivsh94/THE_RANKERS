@@ -27,7 +27,7 @@ const GitHubLogin = () => {
         } else if (!user) {
             toast.dismiss();
             toast("Please Login First!", { id: "login-toast" });
-            navigate("/login");
+            navigate("/");
         }
     }, [ ]);
 

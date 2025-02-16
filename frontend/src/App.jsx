@@ -1,14 +1,13 @@
 import './App.css'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import { Toaster } from 'react-hot-toast'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { login, logout } from './features/Login/loginSlice'
-import GitHubLogin from './components/GitHubLogin'
-import Home from './components/Home'
-// import Leaderboard from './components/Leaderboard'
+import Home from './pages/Home'
+import Leaderboard from './pages/Leaderboard'
 
 axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
@@ -59,9 +58,10 @@ function App() {
     <Router>
       <Header />
       <Toaster />
-      <GitHubLogin />
-      {/* <Leaderboard /> */}
-      <Home/>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+      </Routes>
     </Router>
   );
 }

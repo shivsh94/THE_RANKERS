@@ -18,24 +18,25 @@ const Header = () => {
     const handleLogout = async (e) => {
         e.preventDefault();
         try {
-          const response = await axios.get('/auth/logout');
-            
-          if (response.data.success) {
+            const response = await axios.get('/auth/logout');
 
-            dispatch(logout());
-            // console.log(user);
-            
-            toast.success("Logged out successfully!");
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
-            navigate('/login');
-          } else {
-            console.log(response.data.message);
-          }
+            if (response.data.success) {
+
+                dispatch(logout());
+                // console.log(user);
+
+                toast.success("Logged out successfully!");
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+                navigate("/");
+                window.location.reload();
+            } else {
+                console.log(response.data.message);
+            }
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
+    };
 
     return (
         <div>
@@ -47,6 +48,7 @@ const Header = () => {
                     <a href="/home">HOME</a>
                     <a href="/about">ABOUT</a>
                     <a href="/contact">CONTACT</a>
+                    <a href="/leaderboard">LEADERBOARD</a>
                 </div>
                 <div className='flex items-center justify-end space-x-4'>
                     {user ? (
@@ -64,14 +66,14 @@ const Header = () => {
                             </button>
                         </>
                     ) : (
-                        location.pathname === "/login" && (
-                            <button
-                                onClick={handleLogin}
-                                className="py-2 px-4 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-base font-semibold transition"
-                            >
-                                Sign in with GitHub
-                            </button>
-                        )
+
+                        <button
+                            onClick={handleLogin}
+                            className="py-2 px-4 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-base font-semibold transition"
+                        >
+                            Sign in with GitHub
+                        </button>
+
                     )}
                 </div>
             </div>

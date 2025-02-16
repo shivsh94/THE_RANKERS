@@ -52,7 +52,7 @@ const Card = ({ repo }) => {
         href={repo.html_url}
         target="_blank"
         rel="noopener noreferrer"
-        className="block text-center py-2 px-4 bg-blue-600 hover:bg-blue-700 transition rounded-lg text-white font-semibold flex items-center justify-center"
+        className="text-center py-2 px-4 bg-blue-600 hover:bg-blue-700 transition rounded-lg text-white font-semibold flex items-center justify-center"
       >
         <Link className="w-4 h-4 mr-2" />
         Visit Repository

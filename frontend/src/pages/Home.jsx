@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Card from "./Card";
+import Card from "../components/Card";
 import { useSelector } from "react-redux";
+import GitHubLogin from "../components/GitHubLogin";
 // import axios from "axios";
 
 const Home = () => {
@@ -31,9 +32,10 @@ const Home = () => {
   return (
     <div className="p-5 bg-black">
       {/* Heading */}
-      <div className="text-center font-bold text-2xl mb-5">
+      <div className="text-center font-bold text-2xl mb-10 text-white">
         <h1>Your Repositories</h1>
       </div>
+      <GitHubLogin />
 
       {/* Display Repos */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
