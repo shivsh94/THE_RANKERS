@@ -3,7 +3,7 @@ import { Star, GitFork, Eye, Link, Code, Calendar } from "lucide-react";
 
 const Card = ({ repo }) => {
   return (
-    <div className="bg-gray-900 text-white p-5 rounded-2xl shadow-lg max-w-md w-full border border-gray-700">
+    <div className="bg-gray-900 h-full text-white p-5 rounded-2xl shadow-lg max-w-md w-full border border-gray-700">
       <div className="flex items-center mb-3">
         <img
           src={repo.owner.avatar_url}

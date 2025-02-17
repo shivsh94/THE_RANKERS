@@ -30,7 +30,6 @@ export const githubCallback = async (req, res) => {
       clientSecret: CLIENT_SECRET,
     });
 
- 
     const tokenAuth = await auth({ type: "oauth-user", code });
     const accessToken = tokenAuth.token;
     // console.log("Access-token",accessToken);
@@ -66,30 +65,35 @@ export const githubCallback = async (req, res) => {
         allRepos = allRepos.concat(repos);
         page++;
       }
+      allRepos.sort(
+        (repo1, repo2) => repo2.stargazers_count - repo1.stargazers_count
+      );
+
       // console.log("Repos",repos);
 
       // const totalCommits = await getTotalCommits(octokit, user.login, allRepos);
-       
+
       existingUser = new User({
         githubId: user.id,
         name: user.name,
         username: user.login,
         avatar_url: user.avatar_url,
         repos: allRepos,
-        // total_commit: totalCommits,
       });
 
       await existingUser.save();
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: existingUser.githubId, github_token: accessToken }, SECRET_KEY, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      { id: existingUser.githubId, github_token: accessToken },
+      SECRET_KEY,
+      {
+        expiresIn: "7d",
+      }
+    );
     // console.log("Token",token);
-    
 
-    // Set token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 3600000,
@@ -104,7 +108,6 @@ export const githubCallback = async (req, res) => {
   }
 };
 
-// Verify User Token
 export const isVerify = async (req, res) => {
   try {
     const token = req.cookies.token || req.body.token;
@@ -129,29 +132,3 @@ export const logout = (req, res) => {
   res.clearCookie("token");
   return res.json({ success: true, message: "Logged out successfully!" });
 };
-
-// const getTotalCommits = async (octokit, username, repos) => {
-//   let totalCommits = 0;
-
-//   for (const repo of repos) {
-//     const repoName = repo.name;
-//     const owner = repo.owner.login;
-
-//     try {
-//       // Fetch commits where user is the author
-//       const { data: commits } = await octokit.rest.repos.listCommits({
-//         owner,
-//         repo: repoName,
-//         author: username, // Filter by user
-//         per_page: 100,
-//       });
-
-//       totalCommits += commits.length;
-//     } catch (error) {
-//       console.error(`Error fetching commits for ${repoName}:`, error);
-//     }
-//   }
-
-//   // console.log(`Total commits by ${username}:`, totalCommits);
-//   return totalCommits;
-// };
