@@ -13,7 +13,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.login.currentUser);
-    
+
     const menuRef = useRef(null);
     const dropdownRef = useRef(null);
 
@@ -73,8 +73,8 @@ const Header = () => {
         <header className='w-full bg-black/95 backdrop-blur-md text-white font-sans sticky top-0 z-50 border-b border-gray-800'>
             <div className='max-w-7xl mx-auto'>
                 <div className='flex items-center justify-between h-16 px-4 md:px-6'>
-                    <button className='md:hidden text-2xl text-blue-400 transition-all duration-300 ease-in-out' 
-                            onClick={toggleMenu}>
+                    <button className='md:hidden text-2xl text-blue-400 transition-all duration-300 ease-in-out'
+                        onClick={toggleMenu}>
                         {menuOpen ? <FiX /> : <FiMenu />}
                     </button>
 
@@ -82,12 +82,11 @@ const Header = () => {
                         THE_RANKERS
                     </a>
 
-                    {/* Desktop Navigation */}
                     <nav className='hidden md:flex items-center space-x-8'>
                         {navItems.map((item) => (
-                            <a key={item.path} 
-                               href={item.path} 
-                               className={`flex items-center px-3 py-2 hover:text-blue-400 transition-all duration-200 ${isActive(item.path)}`}>
+                            <a key={item.path}
+                                href={item.path}
+                                className={`flex items-center px-3 py-2 hover:text-blue-400 transition-all duration-200 ${isActive(item.path)}`}>
                                 {item.icon}
                                 {item.label}
                             </a>
@@ -104,7 +103,7 @@ const Header = () => {
                                 Sign in
                             </button>
                         )}
-                        
+
                         {user && (
                             <div className="relative">
                                 <img
@@ -113,16 +112,16 @@ const Header = () => {
                                     className="w-10 h-10 rounded-full border-2 border-blue-400 cursor-pointer hover:scale-105 transition-transform duration-200"
                                     onClick={toggleDropdown}
                                 />
-                                
+
                                 {dropdownOpen && (
-                                    <div ref={dropdownRef} 
-                                         className='absolute right-0 mt-2 w-48 bg-gray-900 border border-gray-800 shadow-lg rounded-lg overflow-hidden'>
-                                        <a href="/profile" 
-                                           className='flex items-center px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors duration-200'>
+                                    <div ref={dropdownRef}
+                                        className='absolute right-0 mt-2 w-48 bg-gray-900 border border-gray-800 shadow-lg rounded-lg overflow-hidden'>
+                                        <a href="/profile"
+                                            className='flex items-center px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors duration-200'>
                                             Profile
                                         </a>
-                                        <button onClick={handleLogout} 
-                                                className='w-full flex items-center px-4 py-2 text-gray-300 hover:bg-red-600 hover:text-white transition-colors duration-200'>
+                                        <button onClick={handleLogout}
+                                            className='w-full flex items-center px-4 py-2 text-gray-300 hover:bg-red-600 hover:text-white transition-colors duration-200'>
                                             Logout
                                         </button>
                                     </div>
@@ -132,13 +131,12 @@ const Header = () => {
                     </div>
                 </div>
 
-                {/* Mobile Navigation */}
                 <div className={`md:hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-screen' : 'max-h-0'} overflow-hidden bg-gray-900`}>
                     <nav ref={menuRef} className='flex flex-col space-y-2 p-4'>
                         {navItems.map((item) => (
-                            <a key={item.path} 
-                               href={item.path} 
-                               className={`flex items-center px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors duration-200 ${isActive(item.path)}`}>
+                            <a key={item.path}
+                                href={item.path}
+                                className={`flex items-center px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors duration-200 ${isActive(item.path)}`}>
                                 {item.icon}
                                 {item.label}
                             </a>

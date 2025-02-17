@@ -28,18 +28,16 @@ const Leaderboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 p-4">
-      {/* Leaderboard Title */}
+      
       <div className="flex items-center justify-center py-8">
         <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 font-[montserrat] tracking-wide text-center">
           Leaderboard
         </h1>
       </div>
 
-      {/* Top 3 Highlight Section */}
       <div className="max-w-6xl mx-auto mb-16 px-4">
         {leader.length > 0 && (
           <div className="relative">
-            {/* First Place - Elevated */}
             {leader[0] && (
               <div className="w-full flex justify-center mb-8">
                 <div className="w-full max-w-sm bg-gradient-to-b from-yellow-500/10 to-gray-800/50 rounded-lg p-8 backdrop-blur-sm border border-yellow-500/30 transform hover:scale-105 transition-transform duration-300 shadow-lg">
@@ -62,7 +60,6 @@ const Leaderboard = () => {
               </div>
             )}
 
-            {/* Second and Third Place - Side by Side */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Second Place */}
               {leader[1] && (
@@ -85,7 +82,6 @@ const Leaderboard = () => {
                 </div>
               )}
 
-              {/* Third Place */}
               {leader[2] && (
                 <div className="bg-gray-800/50 rounded-lg p-6 backdrop-blur-sm border border-gray-700/50 transform hover:scale-105 transition-transform duration-300">
                   <div className="flex flex-col items-center space-y-4">
@@ -110,7 +106,6 @@ const Leaderboard = () => {
         )}
       </div>
 
-      {/* Rank Table */}
       <div className="max-w-4xl mx-auto">
         <div className="bg-gray-800/30 rounded-lg backdrop-blur-sm border border-gray-700/50 overflow-hidden">
           <div className="overflow-x-auto">
