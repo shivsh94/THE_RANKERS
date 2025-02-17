@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from "react-hot-toast";
 import { logout } from '../features/Login/loginSlice';
 import axios from 'axios';
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiHome, FiInfo, FiMail, FiAward, FiGithub } from "react-icons/fi";
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.login.currentUser);
+    
+    const menuRef = useRef(null);
+    const dropdownRef = useRef(null);
 
     const toggleMenu = () => setMenuOpen(!menuOpen);
+    const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
     const handleLogin = () => {
         window.location.href = `${import.meta.env.VITE_URI}/auth/github`;
@@ -39,49 +44,115 @@ const Header = () => {
         }
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target) && menuOpen) {
+                setMenuOpen(false);
+            }
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target) && dropdownOpen) {
+                setDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [menuOpen, dropdownOpen]);
+
+    const isActive = (path) => location.pathname === path ? 'text-blue-400 border-b-2 border-blue-400' : '';
+
+    const navItems = [
+        { path: '/', label: 'HOME', icon: <FiHome className="mr-2" /> },
+        { path: '/about', label: 'ABOUT', icon: <FiInfo className="mr-2" /> },
+        { path: '/contact', label: 'CONTACT', icon: <FiMail className="mr-2" /> },
+        { path: '/leaderboard', label: 'LEADERBOARD', icon: <FiAward className="mr-2" /> },
+    ];
+
     return (
-        <header className='w-full bg-gradient-to-r from-gray-900 to-black text-white font-sans font-bold p-4 shadow-lg'>
-            <div className='flex items-center justify-between h-16 max-w-7xl mx-auto px-4'>
-                <a href="/" className='text-3xl font-extrabold tracking-wide text-indigo-400'>THE_RANKERS</a>
+        <header className='w-full bg-black/95 backdrop-blur-md text-white font-sans sticky top-0 z-50 border-b border-gray-800'>
+            <div className='max-w-7xl mx-auto'>
+                <div className='flex items-center justify-between h-16 px-4 md:px-6'>
+                    <button className='md:hidden text-2xl text-blue-400 transition-all duration-300 ease-in-out' 
+                            onClick={toggleMenu}>
+                        {menuOpen ? <FiX /> : <FiMenu />}
+                    </button>
 
-                {/* Mobile Menu Toggle */}
-                <button className='md:hidden text-3xl text-indigo-400' onClick={toggleMenu}>
-                    {menuOpen ? <FiX /> : <FiMenu />}
-                </button>
+                    <a href="/" className='text-2xl md:text-3xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600'>
+                        THE_RANKERS
+                    </a>
 
-                {/* Navigation Links */}
-                <nav className={`md:flex md:items-center md:space-x-8 text-lg absolute md:static left-0 w-full md:w-auto bg-gray-900 md:bg-transparent transition-all ${menuOpen ? 'top-16' : 'hidden'} md:flex md:top-auto md:relative md:flex-row flex flex-col items-center z-10` }>
-                    <a href="/" className='block px-4 py-2 md:inline hover:text-indigo-400 transition'>HOME</a>
-                    <a href="/about" className='block px-4 py-2 md:inline hover:text-indigo-400 transition'>ABOUT</a>
-                    <a href="/contact" className='block px-4 py-2 md:inline hover:text-indigo-400 transition'>CONTACT</a>
-                    <a href="/leaderboard" className='block px-4 py-2 md:inline hover:text-indigo-400 transition'>LEADERBOARD</a>
-                </nav>
+                    {/* Desktop Navigation */}
+                    <nav className='hidden md:flex items-center space-x-8'>
+                        {navItems.map((item) => (
+                            <a key={item.path} 
+                               href={item.path} 
+                               className={`flex items-center px-3 py-2 hover:text-blue-400 transition-all duration-200 ${isActive(item.path)}`}>
+                                {item.icon}
+                                {item.label}
+                            </a>
+                        ))}
+                    </nav>
 
-                {/* Authentication Buttons */}
-                <div className='flex items-center space-x-4'>
-                    {user && (
-                        <img
-                            src={user.avatar_url}
-                            alt="User Avatar"
-                            className="w-12 h-12 rounded-full border-2 border-indigo-400 shadow-md cursor-pointer"
-                        />
-                    )}
-                    {user && (
-                        <button
-                            onClick={handleLogout}
-                            className="hidden md:block py-2 px-5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-lg font-semibold transition shadow-md"
-                        >
-                            Logout
-                        </button>
-                    )}
-                    {!user && (
-                        <button
-                            onClick={handleLogin}
-                            className="py-2 px-5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-lg font-semibold transition shadow-md"
-                        >
-                            Sign in with GitHub
-                        </button>
-                    )}
+                    <div className='flex items-center space-x-4'>
+                        {!user && (
+                            <button
+                                onClick={handleLogin}
+                                className="hidden md:flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg shadow-blue-500/20"
+                            >
+                                <FiGithub className="mr-2" />
+                                Sign in
+                            </button>
+                        )}
+                        
+                        {user && (
+                            <div className="relative">
+                                <img
+                                    src={user.avatar_url}
+                                    alt="User"
+                                    className="w-10 h-10 rounded-full border-2 border-blue-400 cursor-pointer hover:scale-105 transition-transform duration-200"
+                                    onClick={toggleDropdown}
+                                />
+                                
+                                {dropdownOpen && (
+                                    <div ref={dropdownRef} 
+                                         className='absolute right-0 mt-2 w-48 bg-gray-900 border border-gray-800 shadow-lg rounded-lg overflow-hidden'>
+                                        <a href="/profile" 
+                                           className='flex items-center px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors duration-200'>
+                                            Profile
+                                        </a>
+                                        <button onClick={handleLogout} 
+                                                className='w-full flex items-center px-4 py-2 text-gray-300 hover:bg-red-600 hover:text-white transition-colors duration-200'>
+                                            Logout
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Mobile Navigation */}
+                <div className={`md:hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-screen' : 'max-h-0'} overflow-hidden bg-gray-900`}>
+                    <nav ref={menuRef} className='flex flex-col space-y-2 p-4'>
+                        {navItems.map((item) => (
+                            <a key={item.path} 
+                               href={item.path} 
+                               className={`flex items-center px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors duration-200 ${isActive(item.path)}`}>
+                                {item.icon}
+                                {item.label}
+                            </a>
+                        ))}
+                        {!user && (
+                            <button
+                                onClick={handleLogin}
+                                className="flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-semibold transition-all duration-300"
+                            >
+                                <FiGithub className="mr-2" />
+                                Sign in with GitHub
+                            </button>
+                        )}
+                    </nav>
                 </div>
             </div>
         </header>
