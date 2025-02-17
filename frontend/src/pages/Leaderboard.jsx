@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
-
+import { toast } from "react-hot-toast";
 
 
 const Leaderboard = () => {
