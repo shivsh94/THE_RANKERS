@@ -4,23 +4,28 @@ import { useSelector } from "react-redux";
 import GitHubLogin from "../components/GitHubLogin";
 import axios from "axios";
 import { Code2 } from 'lucide-react';
+import { FiMenu, FiX, FiHome, FiInfo, FiMail, FiAward, FiGithub } from "react-icons/fi";
 
 const Home = () => {
   const [repos, setRepos] = useState([]);
   const user = useSelector((state) => state.login.currentUser);
 
+  const handleLogin = () => {
+    window.location.href = `${import.meta.env.VITE_URI}/auth/github`;
+  };
+
   useEffect(() => {
     const fetchRepos = async () => {
       try {
         if (!user || !user.githubId) return;
-        
+
         const repos = user.repos;
         setRepos(repos);
       } catch (error) {
         console.error("Repo Fetch Error:", error);
       }
     };
-    
+
     fetchRepos();
   }, [user]);
 
@@ -53,15 +58,16 @@ const Home = () => {
 
         {/* GitHub Login Section */}
         <div className="mb-12">
-          <div className="max-w-md mx-auto backdrop-blur-sm bg-white/5 rounded-lg border border-gray-700/50 p-6">
+          {/* <div className="max-w-md mx-auto backdrop-blur-sm bg-white/5 rounded-lg border border-gray-700/50 p-6">
+
+          </div> */}
             <GitHubLogin />
-          </div>
         </div>
 
         {repos.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {repos.map((repo, index) => (
-              <div 
+              <div
                 key={index}
                 className="transform hover:scale-105 transition-all duration-300"
               >
@@ -78,6 +84,13 @@ const Home = () => {
             <p className="text-gray-500 text-center text-sm max-w-md">
               Connect your GitHub account to see your repositories here
             </p>
+            <button
+              onClick={handleLogin}
+              className="flex items-center mt-5 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg shadow-blue-500/20"
+            >
+              <FiGithub className="mr-2" />
+              Sign in
+            </button>
           </div>
         )}
       </div>
