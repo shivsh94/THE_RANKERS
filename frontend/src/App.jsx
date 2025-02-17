@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux'
 import { login, logout } from './features/Login/loginSlice'
 import Home from './pages/Home'
 import Leaderboard from './pages/Leaderboard'
+import Contact from './components/Contact'
+import AboutUs from './components/AboutUs'
 
 axios.defaults.baseURL =  import.meta.env.VITE_URI;
 axios.defaults.withCredentials = true;
@@ -64,6 +66,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<AboutUs />} />
+
       </Routes>
     </Router>
   );
